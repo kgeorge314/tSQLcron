@@ -25,5 +25,5 @@ services:
             - './flyway.tSQLcron/sql:/flyway/sql'
             - './flyway.tSQLcron/conf:/flyway/conf'
         depends_on:
-            - inittools
+            - tsqlrunner.initdb
             - db
