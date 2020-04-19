@@ -20,7 +20,7 @@ services:
         command: '/tooling/execute-sql-scripts.sh'
     flyway.tSQLcron:
         image: 'flyway/flyway'
-        command: '-user=sa -password="${SQL_SERVER_PASSWORD}" -url="jdbc:sqlserver://db;databaseName=tSQLcron" -connectRetries=60 migrate'
+        command: '-user=sa -password="${SQL_SERVER_PASSWORD}" -url="jdbc:sqlserver://db;databaseName=tSQLcron" -placeholders.tSQLt="${DeploytSQLt:-0}" -connectRetries=60 migrate'
         volumes:
             - './flyway.tSQLcron/sql:/flyway/sql'
             - './flyway.tSQLcron/conf:/flyway/conf'
