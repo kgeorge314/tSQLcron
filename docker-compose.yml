@@ -7,3 +7,14 @@ services:
             ACCEPT_EULA: Y
         ports:
             - '14333:1433'
+    inittools:
+        image: aletasystems/tsqlrunner
+        depends_on:
+            - db
+        volumes: 
+          - './tsqlrunner.initscripts:/tsqlscripts'
+        environment:
+            SQLCMDSERVER: db
+            SQLCMDUSER: sa
+            SQLCMDPASSWORD: ${SQL_SERVER_PASSWORD}
+        command: '/tooling/execute-sql-scripts.sh'
