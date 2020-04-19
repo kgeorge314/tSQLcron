@@ -7,7 +7,7 @@ services:
             ACCEPT_EULA: Y
         ports:
             - '14333:1433'
-    inittools:
+    tsqlrunner.initdb:
         image: aletasystems/tsqlrunner
         depends_on:
             - db
