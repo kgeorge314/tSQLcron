@@ -25,7 +25,7 @@ Returns: {start_period} {end_period} {interval_period} {this_period} {is_any}
                  )
                , NULL) AS INT) AS end_period
       , CAST(IIF(CHARINDEX( N'/', value ) > 0, SUBSTRING( value, CHARINDEX( N'/', value ) + 1, LEN( value )), NULL) AS INT) AS interval_period
-      , TRY_CAST(IIF(CHARINDEX( N'/', value ) > 0 , SUBSTRING( value, 0, CHARINDEX( N'/', value )) , value) AS INT) AS this_period
+      , TRY_CAST(IIF(CHARINDEX( N'/', value ) > 0 AND LEFT(value,2)<>'0/', SUBSTRING( value, 0, CHARINDEX( N'/', value )) , value) AS INT) AS this_period
       , CAST(IIF(value = N'*' OR LEFT(value,2) IN (N'0/' , N'*/'), 1, 0) AS BIT) AS is_any
     FROM STRING_SPLIT(@cron_element, N',')
 ) ;
