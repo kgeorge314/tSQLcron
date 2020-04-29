@@ -12,5 +12,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Compose Up
       run: docker-compose up -d
+    - name: Sleep for 2 minute
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '2m'
     - name: Look at Flyway Logs
       run: docker-compose logs flyway.tSQLcron
