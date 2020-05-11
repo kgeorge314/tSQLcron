@@ -9,6 +9,8 @@ on:
     paths: 
       - '!**/*.md'
       - '!*.md'
+      - 'tsqlrunner.initscripts/**/*'
+      - 'flyway.tSQLcron/**/*'
 
 jobs:
   create-build-deploy-test-tSQLcron:
