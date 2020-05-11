@@ -20,6 +20,6 @@ Example Usage
 
     IF (@out_is_cron_true = 1 )
     BEGIN
-      -- DO SOMETHING
+      PRINT 'DO SOMETHING';
     END
 ```
