@@ -6,6 +6,9 @@ on:
       - master
       - feature/*
       - cicd/*
+    paths: 
+      - '!**/*.md'
+      - '!*.md'
 
 jobs:
   create-build-deploy-test-tSQLcron:
