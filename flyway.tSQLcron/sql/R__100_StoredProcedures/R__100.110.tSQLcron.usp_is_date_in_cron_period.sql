@@ -97,7 +97,7 @@ BEGIN
     SET NOCOUNT ON;
 
     DROP TABLE IF EXISTS
-        #hours
+        #hour
       , #minute_second ;
     
     DECLARE
@@ -177,8 +177,8 @@ BEGIN
             RETURN @is_success;
         END ;
 
-        EXEC tSQLcron.usp_write_verbose ' INFO' , 'CREATE #Hours and #minute_second TABLE';
-        SELECT CAST(value AS INT) AS hours INTO #hours FROM
+        EXEC tSQLcron.usp_write_verbose ' INFO' , 'CREATE #hour and #minute_second TABLE';
+        SELECT CAST(value AS INT) AS hours INTO #hour FROM
         STRING_SPLIT(N'0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23', ',') ;
 
         SELECT
@@ -236,7 +236,7 @@ BEGIN
                 , S.seconds AS time_second
                 , TIMEFROMPARTS( H.hours, M.minutes, S.seconds, 0, 0 ) AS valid_times
               FROM
-                  #hours H
+                  #hour H
              CROSS APPLY #minute_second M
              CROSS APPLY #minute_second S
              CROSS APPLY tSQLcron.fn_parse_cron_expression_element( @Hours ) cH
