@@ -81,7 +81,7 @@ Sample CRON expressions: |
     
 Example: |
     DECLARE @out_is_cron_true BIT ;
-    EXEC tSQLcron.sp_is_date_in_cron_period
+    EXEC tSQLcron.usp_is_date_in_cron_period
       @cron_expression =  N'* 0/15 * * * *' -- nvarchar(100)
     , @validate_date = '2020-01-01 13:15:00' -- datetime
     , @out_is_cron_true = @out_is_cron_true OUTPUT -- bit
