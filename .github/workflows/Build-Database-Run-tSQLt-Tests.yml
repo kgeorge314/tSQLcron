@@ -8,8 +8,8 @@ on:
       - cicd/*
 
     paths-ignore: 
-      - '!**/*.md'
-      - '!*.md'
+      - '**/*.md'
+      - '*.md'
       
 jobs:
   create-build-deploy-test-tSQLcron:
