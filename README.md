@@ -12,12 +12,12 @@ Example Usage
 
 ```sql
     DECLARE @out_is_cron_true BIT ;
-    
+
     EXEC tSQLcron.usp_is_date_in_cron_period
       @cron_expression =  N'* 0/15 * * * *' -- nvarchar(100)
     , @validate_date = '2020-01-01 13:15:00' -- datetime
     , @out_is_cron_true = @out_is_cron_true OUTPUT -- bit
-    
+
     IF (@out_is_cron_true = 1 )
     BEGIN
       -- DO SOMETHING
