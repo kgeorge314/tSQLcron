@@ -39,7 +39,7 @@ $OutPutFile = $ReleasesFileContent -join "`r`n"
 $OutPutFile | Out-File -FilePath $InstallScriptPath
 
 $TestCasesFilesContent = @()
-foreach ($sql in ($Manifest | Where-Object -Property item_type -EQ 'TSQL' | Sort-Object -Property Order )) {
+foreach ($sql in ($Manifest | Where-Object -Property item_type -EQ 'TestCase' | Sort-Object -Property Order )) {
     $FileContent = Get-content -path $sql.file_name
     
     $TestCasesFilesContent += $FileContent

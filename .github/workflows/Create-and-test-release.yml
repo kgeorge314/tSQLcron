@@ -79,7 +79,7 @@ jobs:
     - shell: pwsh
       name: Install tsqlCron with Install Script
       run: | 
-        $query = Get-Content "$($env:GITHUB_WORKSPACE)\TestCases_tsqlCron.sql" -Raw
+        $query = Get-Content "$($env:GITHUB_WORKSPACE)\Install_tsqlCron.sql" -Raw
 
         # Setup Parameters for connecting to SQL Server
         $Parameters = @{
@@ -96,7 +96,7 @@ jobs:
     - shell: pwsh
       name: Install tSQLt test cases
       run: | 
-        $query = Get-Content "$($env:GITHUB_WORKSPACE)\Install_tsqlCron.sql" -Raw
+        $query = Get-Content "$($env:GITHUB_WORKSPACE)\TestCases_tsqlCron.sql" -Raw
 
         # Setup Parameters for connecting to SQL Server
         $Parameters = @{
