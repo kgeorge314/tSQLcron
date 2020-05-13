@@ -90,6 +90,8 @@ jobs:
             Query          = $query;
         }
 
+        Invoke-Sqlcmd @Parameters
+
       # Install tsqlCron test cases
     - shell: pwsh
       name: Install tSQLt test cases
@@ -104,6 +106,8 @@ jobs:
             Password       = $env:SA_PASSWORD;
             Query          = $query;
         }
+
+        Invoke-Sqlcmd @Parameters
 
       # Execute the Utility Script that runs tSQLt
       # - Runs tsqlt.Runall but ignores failures
