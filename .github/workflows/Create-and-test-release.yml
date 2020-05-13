@@ -1,4 +1,4 @@
-name: Build-Database-Run-tSQLt-Tests
+name: Release and Install Script
 
 on:
   push:
