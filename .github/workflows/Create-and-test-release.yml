@@ -1,0 +1,114 @@
+name: Build-Database-Run-tSQLt-Tests
+
+on:
+  push:
+    tags:
+      - release*
+
+    paths-ignore: 
+      - '**/*.md'
+      - '*.md'
+      
+jobs:
+  create-build-deploy-test-tSQLcron:
+    runs-on: ubuntu-latest
+
+    # Use an Environment Variable to store the SQL SA_Password
+    # this ENV variable can be referenced in the Various, step
+    
+    env:
+      SA_PASSWORD: P@ssw0rd! # A secret is not necessary here as this is only a BuildTime SQL instance
+
+    # Create a Service Named db running SQL Server Container running on 14333
+    services:
+      db: 
+         image: mcr.microsoft.com/mssql/server
+         env:
+             SA_PASSWORD: ${{ env.SA_PASSWORD }}
+             ACCEPT_EULA: Y
+         ports:
+             - '14333:1433'
+
+    # Steps to Build/Deploy tsql code
+    steps:
+
+    - uses: actions/checkout@v2
+      name: Checkout Source Code
+    
+    # Using aletasystems/tsqlrunner to Initialize the SQL Server 
+    #  - Create a Database
+    #  - Along with other scripts located in .\tsqlrunner.initscripts
+    - shell: pwsh
+      name: Initialize the SQL Database using aletasystems/tsqlrunner
+      run: |
+        # Get the DockerNetwork of the db service
+        $dockerContainer = (docker ps -a --format '{{ json . }}' | ConvertFrom-Json | %{ $_  } | Where-Object -Property Image -EQ 'mcr.microsoft.com/mssql/server' | Select-Object networks).Networks
+
+        # Attach and Execute aletasystems/tsqlrunner
+        docker run --network=$dockerContainer --rm --name tsqlrunner -e SQLCMDSERVER=db -e SQLCMDUSER=sa -e SQLCMDPASSWORD=$env:SA_PASSWORD  -v  $env:GITHUB_WORKSPACE/tsqlrunner.initscripts:/tsqlscripts aletasystems/tsqlrunner /tooling/execute-sql-scripts.sh
+    
+    # Create Release Artefacts
+    # - A Single TSQL file with all objects that need to be deployed
+    # - tSQLt TestCases
+    - shell: pwsh
+      name: Create TSQL Install File
+      run: |
+         $ReleaseManifestFilePath = "$($env:GITHUB_WORKSPACE)\release_manifest.csv"
+         $InstallScriptPath = "$($env:GITHUB_WORKSPACE)\Install_tsqlCron.sql"
+         $TestCaseScriptPath = "$($env:GITHUB_WORKSPACE)\TestCases_tsqlCron.sql"
+
+         .\Utility\New-ReleaseArtefact.ps1 -ReleaseManifestFilePath $ReleaseManifestFilePath -InstallScriptPath $InstallScriptPath -TestCaseScriptPath $TestCaseScriptPath
+
+    # Install SQL Server PS Module
+    # - Set PSGallery to Trusted so Install-Module runs fine
+    - shell: pwsh
+      name: Install and Import SqlServer PS1 Module
+      run : |
+        # We need to trust PSGallery or Install-Module will ask for Trust
+        Get-PSRepository | Set-PSRepository -InstallationPolicy Trusted
+
+        # Install SqlServer PS Module if it doesn't exist
+        if (!(Get-Module -Name SqlServer -ListAvailable)) {
+            $null = Install-Module -Name SqlServer -Scope CurrentUser -AllowClobber
+        }
+
+        # Import the Module
+        $null = Import-Module -Name SqlServer
+
+      # Install tsqlCron
+    - shell: pwsh
+      name: Install tsqlCron with Install Script
+      run: | 
+        $query = Get-Content "$($env:GITHUB_WORKSPACE)\TestCases_tsqlCron.sql" -Raw
+
+        # Setup Parameters for connecting to SQL Server
+        $Parameters = @{
+            ServerInstance = 'localhost,14333';
+            Database       = 'tSQLcron';
+            Username       = 'sa';
+            Password       = $env:SA_PASSWORD;
+            Query          = $query;
+        }
+
+      # Install tsqlCron test cases
+    - shell: pwsh
+      name: Install tSQLt test cases
+      run: | 
+        $query = Get-Content "$($env:GITHUB_WORKSPACE)\Install_tsqlCron.sql" -Raw
+
+        # Setup Parameters for connecting to SQL Server
+        $Parameters = @{
+            ServerInstance = 'localhost,14333';
+            Database       = 'tSQLcron';
+            Username       = 'sa';
+            Password       = $env:SA_PASSWORD;
+            Query          = $query;
+        }
+
+      # Execute the Utility Script that runs tSQLt
+      # - Runs tsqlt.Runall but ignores failures
+      # - Formats the result of the test cases to console and EXITS with the correct exit code.
+    - shell: pwsh
+      name: Execute tSQLt Tests
+      run: | 
+        .\Utility\invoke-tSQLt.ps1
