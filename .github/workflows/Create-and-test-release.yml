@@ -122,4 +122,4 @@ jobs:
       with:
         artifacts: "Install_tsqlCron.sql"
         bodyFile: ".github\\release_notes\\V1.0.0.md"
-        token: ${{secrets.MY_TOKEN}}
+        token: ${{ secrets.MY_TOKEN }}
