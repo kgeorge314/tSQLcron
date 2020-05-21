@@ -121,5 +121,5 @@ jobs:
       name: Create Release
       with:
         artifacts: "Install_tsqlCron.sql"
-        bodyFile: ".github\\release_notes\\V1.0.0.md"
+        bodyFile: ".github\\release_notes\\ReleaseNotes.md"
         token: ${{ secrets.MY_TOKEN }}
