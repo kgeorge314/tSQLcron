@@ -1,8 +1,9 @@
 # tSQLcron
 
-| Branch |                                                    Build Status                                                    |
-|:------:|:------------------------------------------------------------------------------------------------------------------:|
-| master | ![master-tsql-and-tSQLt](https://github.com/kgeorge314/tSQLcron/workflows/Build-Database-Run-tSQLt-Tests/badge.svg?branch=master) |
+|     Branch     |                                                           Build Status                                                            |
+|:--------------:|:---------------------------------------------------------------------------------------------------------------------------------:|
+|     master     | ![master-tsql-and-tSQLt](https://github.com/kgeorge314/tSQLcron/workflows/Build-Database-Run-tSQLt-Tests/badge.svg?branch=master) |
+| latest-release |      ![Create - Test - Release](https://github.com/kgeorge314/tSQLcron/workflows/Create%20-%20Test%20-%20Release/badge.svg)       |
 
 A tSQL based cron utility.
 
