@@ -1,5 +1,3 @@
-USE tSQLcron;
-
 /*
    Copyright 2011 tSQLt
 
