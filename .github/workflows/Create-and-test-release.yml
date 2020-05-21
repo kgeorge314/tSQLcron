@@ -118,8 +118,7 @@ jobs:
         .\Utility\invoke-tSQLt.ps1
 
     - uses: ncipollo/release-action@v1
-      name: Create Release
       with:
-        artifacts: "Install_tsqlCron.sql"
-        bodyFile: ".github\\release_notes\\ReleaseNotes.md"
+        artifacts: '$($env:GITHUB_WORKSPACE)\\Install_tsqlCron.sql'
+        bodyFile: "ReleaseNotes.md"
         token: ${{ secrets.MY_TOKEN }}
