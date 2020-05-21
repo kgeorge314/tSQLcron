@@ -116,3 +116,10 @@ jobs:
       name: Execute tSQLt Tests
       run: | 
         .\Utility\invoke-tSQLt.ps1
+
+    - uses: ncipollo/release-action@v1
+      name: Create Release
+      with:
+        artifacts: "Install_tsqlCron.sql"
+        bodyFile: ".github\\release_notes\\V1.0.0.md"
+        token: ${{secrets.MY_TOKEN}}
