@@ -2,7 +2,8 @@
 
 ## Install
 
-- Execute `.sql` file
+- Download Asset `Install_tsqlCron.sql`
+- Execute `Install_tsqlCron.sql` file
 
 **Actions Performed:**
 
