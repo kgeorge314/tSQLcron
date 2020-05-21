@@ -25,6 +25,8 @@ jobs:
 
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{ github.workspace }}\Install_tsqlCron.sql
+        artifacts: ${{ github.workspace }}/Install_tsqlCron.sql
         bodyFile: "ReleaseNotes.md"
         token: ${{ secrets.MY_TOKEN }}
+        allowUpdates: true
+        
