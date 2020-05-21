@@ -1,0 +1,25 @@
+name: CI-Debug
+
+on:
+  push:
+    tags:
+      - V*
+
+    paths-ignore: 
+      - '**/*.md'
+      - '*.md'
+      
+jobs:
+  create-build-deploy-test-tSQLcron:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+      name: Checkout Source Code
+    
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: '.\README.md'
+        bodyFile: "ReleaseNotes.md"
+        token: ${{ secrets.MY_TOKEN }}
