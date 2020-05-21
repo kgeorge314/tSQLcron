@@ -1,4 +1,4 @@
-name: Release and Install Script
+name: Create - Test - Release 
 
 on:
   push:
