@@ -1,3 +1,5 @@
+![GitHub Releases](https://img.shields.io/github/downloads/kgeorge314/tSQLcron/latest/total?style=plastic)
+
 # tSQLcron
 
 | Branch         | Build Status                                                                                                                      |
